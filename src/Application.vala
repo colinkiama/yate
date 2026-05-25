@@ -3,8 +3,9 @@ public class Yate.App : Gtk.Application {
 
     // Constructor
     public App () {
-        Object (application_id: "com.colinkiama.yate",
-                flags : GLib.ApplicationFlags.FLAGS_NONE
+        Object (
+            application_id: "com.colinkiama.yate",
+            flags : GLib.ApplicationFlags.DEFAULT_FLAGS
         );
     }
 
