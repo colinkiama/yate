@@ -1,6 +1,8 @@
 sources = files(
-  'Main.vala',
-  'MainWindow.vala',
+  'Application.vala',
+  'View/MainWindow.vala',
+  'View/MainView.vala',
+  'ViewModel/MainViewModel.vala'
 )
 
 dependencies = [
