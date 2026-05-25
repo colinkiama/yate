@@ -17,27 +17,22 @@ public class Yate.ShellView : Gtk.ApplicationWindow {
     };
 
     static construct {
-        action_accelerators.set (ACTION_SAVE, "<Primary>s");
-        action_accelerators.set (ACTION_SAVE_AS, "<Primary><Shift>s");
-        action_accelerators.set (ACTION_OPEN, "<Primary>o");
-    }
-
-    public ShellView (Gtk.Application application) {
-        Object (application: application);
+        action_accelerators.set (ACTION_SAVE, @"$(ShortcutUtils.platform_ctrl ())s");
+        action_accelerators.set (ACTION_SAVE_AS, @"$(ShortcutUtils.platform_ctrl ())<Shift>s");
+        action_accelerators.set (ACTION_OPEN, @"$(ShortcutUtils.platform_ctrl ())o");
     }
 
     construct {
-        application = application;
+        application = ((Gtk.Application)(GLib.Application.get_default ()));
         app = (Yate.App) application;
         actions = new SimpleActionGroup ();
         actions.add_action_entries (ACTION_ENTRIES, this);
         insert_action_group (ACTION_GROUP, actions);
 
-         foreach (var action in action_accelerators.get_keys ()) {
+        foreach (var action in action_accelerators.get_keys ()) {
             var accels_array = action_accelerators[action].to_array ();
             accels_array += null;
-
-            application.set_accels_for_action (ACTION_PREFIX + action, accels_array);
+            app.set_accels_for_action (ACTION_PREFIX + action, accels_array);
         }
 
         this.default_height = 400;
@@ -70,6 +65,4 @@ public class Yate.ShellView : Gtk.ApplicationWindow {
     private void action_open () {
         debug ("ACTION OPEN");
     }
-
-
 }

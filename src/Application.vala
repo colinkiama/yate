@@ -12,7 +12,7 @@ public class Yate.App : Gtk.Application {
     protected override void activate () {
         var win = this.get_active_window ();
         if (win == null) {
-            win = new ShellView (this);
+            win = new ShellView ();
         }
         win.present ();
     }
