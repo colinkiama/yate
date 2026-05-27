@@ -1,29 +1,32 @@
 public class Yate.MainView : Gtk.Widget {
     private Gtk.Box _container;
-    private Gtk.Label _label;
-    private Gtk.Button _button;
+    private Gtk.TextView _text_view;
 
     class construct {
         set_layout_manager_type (typeof (Gtk.BoxLayout));
     }
 
     construct {
-        this._label = new Gtk.Label ("Hello World!");
-        this._label.hexpand = this._label.vexpand = true;
-        this._button = new Gtk.Button.with_label ("Click Me!");
+        this._text_view = new Gtk.TextView () {
+            top_margin = 12,
+            right_margin = 12,
+            left_margin = 12,
+            bottom_margin = 12,
+            wrap_mode = Gtk.WrapMode.WORD_CHAR,
+        };
 
-        this._button.clicked.connect (handle_button_click);
+        var scroll_view = new Gtk.ScrolledWindow () {
+            hscrollbar_policy = Gtk.PolicyType.NEVER,
+            vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
+            hexpand = true,
+            vexpand = true,
+            valign = Gtk.Align.FILL,
+            child = this._text_view,
+        };
 
         this._container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-        this._container.append (this._label);
-        this._container.append (this._button);
+        this._container.append (scroll_view);
         this._container.set_parent (this);
-    }
-
-    private void handle_button_click (Gtk.Widget _widget) {
-        var str = this._label.label;
-        var temp_str = str.reverse ();
-        this._label.label = temp_str;
     }
 
     ~MainView () {
