@@ -1,6 +1,10 @@
 sources = files(
   'Application.vala',
+  'Constants/Actions.vala',
+  'Helpers/ActionUtils.vala',
   'Helpers/ShortcutUtils.vala',
+  'MainWindow.vala',
+  'Services/FileIOService.vala',
   'View/ShellView.vala',
   'View/MainView.vala',
   'ViewModel/MainViewModel.vala',
