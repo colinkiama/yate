@@ -1,6 +1,7 @@
 public class Yate.ShellView : Gtk.ApplicationWindow {
     public SimpleActionGroup actions { get; construct; }
     public Yate.App app { get; private set; }
+    public ShellViewModel view_model { get; set; }
 
     public const string ACTION_GROUP = "win";
     public const string ACTION_PREFIX = ACTION_GROUP + ".";
@@ -10,11 +11,7 @@ public class Yate.ShellView : Gtk.ApplicationWindow {
 
     public static Gee.MultiMap<string, string> action_accelerators = new Gee.HashMultiMap<string, string> ();
 
-    private const ActionEntry[] ACTION_ENTRIES = {
-        { ACTION_SAVE, action_save },
-        { ACTION_SAVE_AS, action_save_as },
-        { ACTION_OPEN, action_open },
-    };
+    private ActionEntry[] _action_entries;
 
     static construct {
         action_accelerators.set (ACTION_SAVE, @"$(ShortcutUtils.platform_ctrl ())s");
@@ -23,10 +20,17 @@ public class Yate.ShellView : Gtk.ApplicationWindow {
     }
 
     construct {
-        application = ((Gtk.Application)(GLib.Application.get_default ()));
-        app = (Yate.App) application;
+        this.application = ((Gtk.Application)(GLib.Application.get_default ()));
+        this.app = (Yate.App) application;
+        this.view_model = new ShellViewModel ();
+        this._action_entries = {
+            { ACTION_SAVE, this.view_model.action_save },
+            { ACTION_SAVE_AS, this.view_model.action_save_as },
+            { ACTION_OPEN, this.view_model.action_open },
+        };
+
         actions = new SimpleActionGroup ();
-        actions.add_action_entries (ACTION_ENTRIES, this);
+        actions.add_action_entries (_action_entries, this);
         insert_action_group (ACTION_GROUP, actions);
 
         foreach (var action in action_accelerators.get_keys ()) {
@@ -52,17 +56,5 @@ public class Yate.ShellView : Gtk.ApplicationWindow {
         this.set_titlebar (header_bar);
 
         this.child = new Yate.MainView ();
-    }
-
-    private void action_save () {
-        debug ("ACTION SAVE!");
-    }
-
-    private void action_save_as () {
-        debug ("ACTION SAVE AS");
-    }
-
-    private void action_open () {
-        debug ("ACTION OPEN");
     }
 }

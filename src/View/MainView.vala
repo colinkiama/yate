@@ -1,4 +1,5 @@
 public class Yate.MainView : Gtk.Widget {
+    public Yate.MainViewModel view_model { get; set; }
     private Gtk.Box _container;
     private Gtk.TextView _text_view;
 
@@ -7,6 +8,7 @@ public class Yate.MainView : Gtk.Widget {
     }
 
     construct {
+        this._view_model = new MainViewModel ();
         this._text_view = new Gtk.TextView () {
             top_margin = 12,
             right_margin = 12,
